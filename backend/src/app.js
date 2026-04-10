@@ -6,7 +6,7 @@ const authRoutes = require("./routes/auth.routes");
 
 connectDB();
 
-app.use(cors);
+app.use(cors());
 app.use(express.json());
 app.use("/api/auth", authRoutes);
 
