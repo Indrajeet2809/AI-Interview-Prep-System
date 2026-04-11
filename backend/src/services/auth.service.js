@@ -33,4 +33,24 @@ const loginUser = async ({ email, password }) => {
   return { user, token };
 };
 
-module.exports = { registerUser, loginUser };
+
+//Logics for delete User
+const deleteUser = async (userId) => {
+  // Delete user
+  const user = await User.findByIdAndDelete(userId);
+
+  if (!user) {
+    throw new Error("User not found");
+  }
+
+  // Delete related answers
+  await Answer.deleteMany({ userId });
+
+  // delete questions created by user
+  await Question.deleteMany({ userId });
+
+  return { message: "User deleted successfully" };
+};
+
+
+module.exports = { registerUser, loginUser , deleteUser };

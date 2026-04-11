@@ -106,7 +106,58 @@ const submitAnswer = async (req, res) => {
 };
 
 
+//Logics for all get all attempts
+const getAllAttempts = async (req, res) => {
+  try {
+    const answers = await Answer.find()
+      .populate("questionId") // join question
+      .sort({ createdAt: -1 });
+
+    res.status(200).json({
+      success: true,
+      data: answers
+    });
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      message: "Error fetching attempts"
+    });
+  }
+};
+
+
+//Logics for all stats of user like his score ,attempts questions
+const getStats = async (req, res) => {
+  try {
+    const answers = await Answer.find();
+
+    const totalQuestions = answers.length;
+
+    const totalScore = answers.reduce((acc, curr) => {
+      return acc + (curr.score || 0);
+    }, 0);
+
+    const averageScore =
+      totalQuestions === 0 ? 0 : totalScore / totalQuestions;
+
+    res.status(200).json({
+      success: true,
+      totalQuestions,
+      averageScore
+    });
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      message: "Error fetching stats"
+    });
+  }
+};
+
 module.exports = {
   generateQuestion,
-  submitAnswer
+  submitAnswer,
+  getAllAttempts,
+  getStats
 };

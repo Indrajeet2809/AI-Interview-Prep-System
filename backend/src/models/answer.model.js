@@ -15,7 +15,12 @@ const answerSchema = new mongoose.Schema({
   },
   feedback: {
     type: String
-  }
+  },
+  userId: {
+  type: mongoose.Schema.Types.ObjectId,
+  ref: "User"
+}
+
 }, { timestamps: true });
 
 module.exports = mongoose.model("Answer", answerSchema);
