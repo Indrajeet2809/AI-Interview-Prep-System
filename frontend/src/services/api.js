@@ -1,17 +1,8 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "http://localhost:3000/api",
-});
-
-API.interceptors.request.use((config) => {
-  const token = localStorage.getItem("token");
-
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
-
-  return config;
+  baseURL: `${import.meta.env.VITE_API_URL}/api`,
+  withCredentials: true,
 });
 
 // Auth
@@ -21,6 +12,19 @@ export const registerUser = (data) => {
 
 export const loginUser = (data) => {
   return API.post("/auth/login", data);
+};
+
+export const logoutUser = () => {
+  return API.post("/auth/logout");
+};
+
+// Admin
+export const getUsers = () => {
+  return API.get("/auth/users");
+};
+
+export const deleteUser = (userId) => {
+  return API.delete(`/auth/delete/${userId}`);
 };
 
 // Interview Prep
@@ -56,48 +60,3 @@ export const generateResumeQuestions = (formData) => {
 };
 
 export default API;
-
-// import axios from "axios";
-
-// const API = axios.create({
-//   baseURL: "http://localhost:3000/api",
-// });
-
-// API.interceptors.request.use((config) => {
-//   const token = localStorage.getItem("token");
-
-//   if (token) {
-//     config.headers.Authorization = `Bearer ${token}`;
-//   }
-
-//   return config;
-// });
-
-// // Auth
-// export const registerUser = (data) => {
-//   return API.post("/auth/register", data);
-// };
-
-// export const loginUser = (data) => {
-//   return API.post("/auth/login", data);
-// };
-
-// // Interview
-// export const generateQuestion = (data) => {
-//   return API.post("/interview/generate-question", data);
-// };
-
-// export const submitAnswer = (data) => {
-//   return API.post("/interview/submit-answer", data);
-// };
-
-// // Dashboard
-// export const getAllAttempts = () => {
-//   return API.get("/interview/attempts");
-// };
-
-// export const getStats = () => {
-//   return API.get("/interview/stats");
-// };
-
-// export default API;

@@ -1,34 +1,53 @@
 const generateQuestionPrompt = (role, difficulty) => {
   return `
-You are an expert interviewer.
+  You are a technical interviewer.
 
 Generate ONE ${difficulty} level interview question for a ${role} role.
 
-Rules:
-- Return ONLY the question
+IMPORTANT RULES:
+- Question must be SHORT (1-2 lines max)
 - Do NOT include explanations
 - Do NOT include phrases like "You are building"
-- Keep it concise
+- Ask only ONE clear question
+- Avoid long scenario-based questions
+- Keep it realistic and commonly asked in interviews
+
+Difficulty Guidelines:
+- Basic: fundamental concepts
+- Intermediate: practical understanding
+- Advanced: system design or deep concepts
+
+Return ONLY the question text.
 `;
 };
 
 const evaluateAnswerPrompt = (question, answer) => {
   return `
-    You are an expert interviewer.
+You are an expert technical interviewer.
 
-    Question:
-    ${question}
+Evaluate the candidate's answer based on clarity, correctness, and relevance.
 
-    Candidate Answer:
-    ${answer}
+IMPORTANT RULES:
+- Do NOT penalize the answer only for being short.
+- Give a fair score even if the answer is concise but correct.
+- Prefer clarity and correctness over length.
+- Feedback should be short and to the point (2-3 lines max).
+- Suggest simple and practical improvements.
 
-    Evaluate the answer and respond in JSON format:
-    {
-      "score": number (0-10),
-      "feedback": "detailed feedback",
-      "improvement": "how to improve"
-    }
-  `;
+Question:
+${question}
+
+Candidate Answer:
+${answer}
+
+Return ONLY valid JSON in this format:
+
+{
+  "score": number (0-10),
+  "feedback": "short feedback (2-3 lines)",
+  "improvement": "1-2 simple suggestions to improve"
+}
+`;
 };
 
 
@@ -51,35 +70,40 @@ ${question}
 `;
 };
 
+
 const resumeQuestionsPrompt = (resumeText) => {
   return `
-You are an expert technical interviewer.
+You are an AI interview preparation assistant.
 
-Below is the extracted text from a candidate's resume:
+Analyze the resume below and generate interview questions based only on the candidate's skills, projects, tools, technologies, and work experience mentioned in the resume.
 
+IMPORTANT INSTRUCTIONS:
+- Generate exactly 8 interview questions.
+- Mix the questions in this order:
+  - First 3 should be basic
+  - Next 3 should be intermediate
+  - Last 2 should be advanced
+- Questions must be short, clear, and direct.
+- Each question should contain only one idea.
+- Avoid long paragraph-style questions.
+- Avoid duplicate questions.
+- Keep them realistic and suitable for interview practice.
+
+Resume:
 ${resumeText}
 
-Based on this resume, generate 8 interview questions that are personalized to the candidate.
+Return the output strictly in this JSON format:
 
-Focus on:
-- projects
-- technical skills
-- tools and frameworks
-- internships or experience
-- problem-solving ability
-- computer science fundamentals related to their background
-
-Return ONLY valid JSON in this exact format:
 {
   "questions": [
-    "Question 1",
-    "Question 2",
-    "Question 3",
-    "Question 4",
-    "Question 5",
-    "Question 6",
-    "Question 7",
-    "Question 8"
+    "Basic: Question 1",
+    "Basic: Question 2",
+    "Basic: Question 3",
+    "Intermediate: Question 4",
+    "Intermediate: Question 5",
+    "Intermediate: Question 6",
+    "Advanced: Question 7",
+    "Advanced: Question 8"
   ]
 }
 `;

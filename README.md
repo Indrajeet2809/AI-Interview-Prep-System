@@ -11,6 +11,7 @@ This project demonstrates full-stack development skills, API integration, and sc
 
 ✨ Features
 🔐 User Authentication (Register/Login with JWT)
+🔐 Role Based Access (Register/Login with JWT)
 🤖 AI-powered Question Generation
 🎯 Role-based Interview Questions (e.g., Frontend, Backend, Full Stack)
 📊 Difficulty Levels (Easy, Medium, Hard)
@@ -84,57 +85,8 @@ Backend calls AI model to generate questions.
 If the main model fails → fallback model is used.
 Questions are returned and displayed on UI.
 
-📁 Project Structure
-AI-Interview-Prep/
-│
-├── backend/
-│   ├── controllers/
-│   ├── services/
-│   ├── routes/
-│   ├── models/
-│   ├── config/
-│   └── app.js
-│
-├── frontend/
-│   ├── src/
-│   ├── components/
-│   ├── pages/
-│   └── App.jsx
-│
-└── README.md
-
-
-⚙️ Installation & Setup
-1️⃣ Clone the Repository
-git clone https://github.com/your-username/AI-Interview-Prep.git
-cd AI-Interview-Prep
-2️⃣ Backend Setup
-cd backend
-npm install
-
-Create .env file:
-
-PORT=8000
-MONGO_URI=your_mongodb_uri
-JWT_SECRET=your_secret
-GEMINI_API_KEY=your_api_key
-EMAIL_USER=your_email
-EMAIL_PASS=your_email_password
-
-Run backend:
-
-npm run dev
-3️⃣ Frontend Setup
-cd frontend
-npm install
-npm run dev
-
-🔌 API Endpoints
-Auth Routes
-Method	Endpoint	Description
-POST	/api/auth/register	Register user
-POST	/api/auth/login	Login user
-DELETE	/api/auth/delete/:id	Delete user
-AI Routes
-Method	Endpoint	Description
-POST	/api/ai/generate	Generate interview questions
+Folder/File structure 
+Backend:
+![alt text](image-1.png)
+Frontend
+![alt text](image-7.png)

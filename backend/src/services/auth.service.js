@@ -1,4 +1,6 @@
 const User = require("../models/user.models");
+const Answer = require("../models/answer.model");
+const Question = require("../models/question.model");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
@@ -11,10 +13,11 @@ const registerUser = async ({ name, email, password }) => {
   const user = await User.create({
     name,
     email,
-    password: hashedPassword
+    password: hashedPassword,
+    role: "user",
   });
 
-  return user; 
+  return user;
 };
 
 const loginUser = async ({ email, password }) => {
@@ -33,24 +36,34 @@ const loginUser = async ({ email, password }) => {
   return { user, token };
 };
 
+const getAllUsers = async () => {
+  const users = await User.find()
+    .select("-password")
+    .sort({ createdAt: -1 });
 
-//Logics for delete User
-const deleteUser = async (userId) => {
-  // Delete user
+  return users;
+};
+
+const deleteUser = async (userId, loggedInUser) => {
+  if (loggedInUser.id === userId) {
+    throw new Error("Admin cannot delete own account");
+  }
+
   const user = await User.findByIdAndDelete(userId);
 
   if (!user) {
     throw new Error("User not found");
   }
 
-  // Delete related answers
   await Answer.deleteMany({ userId });
-
-  // delete questions created by user
   await Question.deleteMany({ userId });
 
   return { message: "User deleted successfully" };
 };
 
-
-module.exports = { registerUser, loginUser , deleteUser };
+module.exports = {
+  registerUser,
+  loginUser,
+  getAllUsers,
+  deleteUser,
+};
