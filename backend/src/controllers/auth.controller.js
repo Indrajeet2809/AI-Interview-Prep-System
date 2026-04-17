@@ -1,11 +1,23 @@
 const authService = require("../services/auth.service");
 const { sendWelcomeEmail } = require("../services/email.service");
 
+// // For local developmet
+// const cookieOptions = {
+//   httpOnly: true,
+//   secure: false, 
+//   sameSite: "lax",
+//   maxAge: 24 * 60 * 60 * 1000, // 1 day
+// };
+
+
+//For production 
+const isProduction = process.env.NODE_ENV === "production";
+
 const cookieOptions = {
   httpOnly: true,
-  secure: false, 
-  sameSite: "lax",
-  maxAge: 24 * 60 * 60 * 1000, // 1 day
+  secure: isProduction,
+  sameSite: isProduction ? "none" : "lax",
+  maxAge: 24 * 60 * 60 * 1000,
 };
 
 const register = async (req, res) => {
